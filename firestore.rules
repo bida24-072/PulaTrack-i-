@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only read/write their own profile document
+    match /users/{userId} {
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+
+      // Sub-collections: transactions, budgets, goals — owner only
+      match /transactions/{txId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /budgets/{budgetId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /goals/{goalId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}
