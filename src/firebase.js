@@ -1,15 +1,7 @@
-// src/firebase.js
-// -----------------------------------------------------------------------
-// Firebase v9 (modular SDK) setup for PulaTrack.
-// -----------------------------------------------------------------------
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  setPersistence,
-  browserLocalPersistence,
-} from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // ADD THIS
+import { getFirestore } from "firebase/firestore"; // ADD THIS
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,14 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Auth + Firestore instances used throughout the app
+// EXPORT THESE 2 so App.jsx can use them
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider();
-
-// Keep the user logged in across page refreshes
-setPersistence(auth, browserLocalPersistence).catch((err) => {
-  console.error("Firebase persistence error:", err);
-});
-
-export default app;
